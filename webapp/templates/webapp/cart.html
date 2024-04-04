@@ -1,0 +1,156 @@
+{% extends 'webapp/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+ <div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-8 col-12">
+            <table class="table table-bordered">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>Select Items</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x in cart %}
+
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="productid" value="{{x.pid.id}}" checked>
+                        </td>
+                        <td><a href="../details/{{x.pid.id}}"><img src="../media/{{x.pid.image}}" width=100 height=100></td>
+                        <td>{{x.pid.name}}</td>
+                        <td>Rs {{x.pid.mrp}}</td>
+                        <td>{{x.qty}}<br>
+                            
+                            <form method="post" id="form{{x.id}}">
+                             {% csrf_token %}
+
+                             <select name="qtychange">
+                                <option selected disable>--set Qty--</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                                <option value=11>11</option>
+                             </select>
+
+                                
+
+                             <input type="hidden"  name="cartid" value="{{x.id}}">
+
+                             <input type="submit" value="apply" class"btn btn-primary" >
+
+
+                            </form>
+
+                        </td>
+                        <td><a href="../delcart/{{x.id}}" class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </td>
+                    </tr>
+                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                    <script>
+                        $(function(){
+                            $("#form{{x.id}}").submit(function(e){
+                                e.preventDefault();
+
+                                $.ajax({
+                                    type:"POST",
+                                    url:'../updatecart',
+                                    data: new FormData(this),
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(res){
+                                        window.location.reload();
+                                    }
+                                })
+
+                            })
+                        })
+                    </script>
+
+                    {% endfor %}
+
+                    <tr>
+                        <td align="right" colspan=4><strong>Total Amount</strong></td>
+                        <th>Rs {{total}}</th>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="col-lg-4 col-12 text-center">
+            {% if cart %}
+            <h2>Cart Summary</h2>
+            <table class="table table bordered">
+                <thead>
+                    <tr>
+                        <th>Orders</th>
+                        <th>Unit Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for x in cart %}
+                <tr>
+                    <td>{{x.pid.name}} <b>X</b> {{x.qty}}</td>
+                    <td>Rs {{x.pid.mrp}}</td>
+                </tr>
+                {% endfor %}
+
+                <tr>
+                    <td>Shipping Charges:</td>
+                    <td>Rs {{sc}}</td>
+                </tr>
+                <tr>
+                    <td>GST</td>
+                    <td>{{gst}} %</td>
+                </tr>
+
+                <tr>
+                    <td align="right">Total Amount:</td>
+                    <td>Rs {{net}}</td>
+                </tr>
+            </table>
+            <div class="mt-5">
+                <a href="../product/" class="btn btn-primary">Continue Shopping</a>
+                <form id="checkout" method="post" action="../checkout/">
+                    {% csrf_token %}
+                    <input type="hidden" name="pids" id="pids" value="">
+                    <button type="submit" class="btn btn-success" style="width: auto">checkout</button>
+                </form>
+
+            </div>
+            {% endif%}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var Mybook= new Array()
+        $("#checkout").submit(function(){
+            $("input[type=checkbox]:checked").each(function(){
+                Mybook.push($(this).val())
+            })
+
+            $("#pids").val(Mybook)
+        })
+
+    })
+</script>
+
+{% endblock %}

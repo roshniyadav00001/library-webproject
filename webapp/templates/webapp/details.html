@@ -1,0 +1,45 @@
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid bg-primary p-5 text-center">
+    <h1 class="text-white">Explore Our Trending Books</h1>
+</div>
+
+<div class="row">
+    
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <a href="../details/{{x.id}}"><img src="{{x.image.url}}" class="img-fluid product"></a>
+               
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-5">
+        <h2>{{x.title}}</h2>
+        <hr>
+        <p>{{x.name}}</p>
+        <h3>
+        Rs <del>499</del>
+        <ins>{{x.mrp}}</ins>
+        </h3>
+
+        <p>{{x.description}}</p>
+
+        <a href="addtocart/" class="btn btn-warning">Add To Cart</a>
+    </div>
+
+
+    
+   
+        
+
+
+</div>
+
+
+{% endblock %}

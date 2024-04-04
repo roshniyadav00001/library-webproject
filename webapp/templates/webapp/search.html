@@ -1,0 +1,43 @@
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid bg-primary p-5 text-center topclass">
+    <h1 class="text-white">Explore Our Trending Books !!!</h1>
+</div>
+
+<div class="row">
+    {% for x in data %}
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <a href="../details/{{x.id}}"><img src="{{x.image.url}}" class="img-fluid product"></a>
+                <h3 class="text-center">{{x.name}}</h3>
+                <p class="text-center">{{x.title}}</p>
+                <p class="text-center">Rs <b>{{x.mrp}}</b></p>
+                
+                <form method="post" action='../add_to_cart/'>
+                    {% csrf_token %}
+
+                    <input type="hidden" name="userid" value="{{user.id}}">
+                    <input type="hidden" name="pid" value="{{x.id}}">
+
+                    <input type="submit" name="btncart" class="btn btn-warning" value="Add To Cart" style="width:auto">
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    {% endfor %}
+   
+        
+
+
+</div>
+
+
+{% endblock %}

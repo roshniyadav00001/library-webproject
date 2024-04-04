@@ -1,0 +1,59 @@
+
+
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid bg-primary p-5 text-center">
+    <h1 class="text-white">Login Your World !!!</h1>
+</div>
+
+<div class="container mt-5 formdec ">
+    <div class="row">
+        <div class="col-lg-3 col-12"></div>
+
+        <div class="col-lg-6 col-12">
+            <div class="card">
+                <div class="card-header">Login</div>
+                <div class="card-body">
+                    
+                    
+                   {% if msg %}
+                        {{msg}}
+                   {% endif %}
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <strong>Username :</strong>
+                        <div class="form-group">
+                            <input type="text" name='username' class="form-control" placeholder="Type username">
+                        </div>
+
+                        <strong>Password :</strong>
+                        <div class="form-group">
+                            <input type="password" name='password' class="form-control" placeholder="Type password">
+                        </div>
+
+                       
+                        
+                        <div class="form-group">
+                            <input type="submit" name='btnlogin' class="form-control" value="Login">
+                            
+                        </div>
+                        
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-12">if account have been not created? <a href="../signup/">SighnUp</a></div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

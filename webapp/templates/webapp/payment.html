@@ -1,0 +1,26 @@
+{% extends 'webapp/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<form action="{% url 'complete_payment' %}" method="post" id="paymentform" style="display:none">
+    {% csrf_token %}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"
+         data-key="rzp_test_BYDhWdZ8qKSmNM"
+         data-amount="{{amount}}"
+         data-currency="INR"
+         data-name="MyLibrary"
+         data-description="Test Payment"
+         data-theme.color="#F37254">
+    </script>
+    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+</form>
+
+<script>
+    $(function(){
+        $('#paymentform').submit()
+    })
+</script>
+
+{% endblock %}
